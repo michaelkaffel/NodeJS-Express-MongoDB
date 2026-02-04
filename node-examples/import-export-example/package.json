@@ -1,0 +1,11 @@
+{
+  "name": "import-export-example",
+  "version": "1.0.0",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
