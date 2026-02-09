@@ -39,7 +39,7 @@ const dbName = 'nucampsite';
         const updateResult = await dboper.updateDocument(
             db,
             { name: 'Breadcrumb Trail Campground'},
-            { description: 'Updated Test Description' },
+            { description: 'Updated Test Description 2' },
             'campsites'
         );
         console.log('Updated Document Count:', updateResult.modifiedCount);
