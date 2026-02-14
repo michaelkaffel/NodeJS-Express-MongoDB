@@ -1,4 +1,4 @@
-const { MongoClient } = require('mongodb-legacy');
+const MongoClient = require('mongodb').MongoClient;
 const dboper = require('./operations');
 
 const url = 'mongodb://127.0.0.1:27017/';
@@ -10,7 +10,7 @@ const dbname = 'nucampsite';
         console.log('Connected correctly to server');
 
         const db = client.db(dbname);
-        
+
         try {
             const dropResult = await db.dropCollection('campsites');
             console.log('Dropped Collection', dropResult);
@@ -42,12 +42,15 @@ const dbname = 'nucampsite';
         );
         console.log('Updated Document Count:', updateResult.modifiedCount);
 
-        const updatedDocs = await dboper.findDocuments(
+        const updatedDocs = await dboper.findDocuments(db, 'campsites');
+        console.log('Found Documents:', updatedDocs);
+
+        const deleteResult = await dboper.removeDocument(
             db,
-            { name: 'Breadcrumb Trail Campground'},
+            { name: 'Breadcrumb Trail Campground' },
             'campsites'
         );
-        console.log('Deleted Document Count:', deletedResult.deletedCount);
+        console.log('Deleted Document Count:', deleteResult.deletedCount);
 
         await client.close();
     } catch (err) {
