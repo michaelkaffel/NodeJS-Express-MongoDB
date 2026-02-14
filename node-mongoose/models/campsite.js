@@ -5,7 +5,7 @@ const campsiteSchema = new Schema({
     name: {
         type: String,
         required: true,
-        unique
+        unique: true
     },
     description: {
         type: String,
