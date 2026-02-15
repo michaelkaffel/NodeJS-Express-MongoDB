@@ -49,7 +49,7 @@ campsiteRouter.route('/:campsiteId')
     })
     .post((req, res) => {
         res.statusCode = 403;
-        res.end(`Post operation not supported on /campsites/${req.params.campsiteId}`);
+        res.end(`POST operation not supported on /campsites/${req.params.campsiteId}`);
     })
     .put((req, res, next) => {
         Campsite.findByIdAndUpdate(req.params.campsiteId, {
@@ -112,7 +112,8 @@ campsiteRouter.route('/:campsiteId/comments')
         res.statusCode = 403;
         res.end(`PUT operation not supported on /campsites/${req.params.campsiteId}`);
     })
-    .delete((req, res, next) => {
+    .delete((req,
+         res, next) => {
         Campsite.findById(req.params.campsiteId)
             .then(campsite => {
                 if (campsite) {
