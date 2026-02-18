@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const partnerSchema = new Schema({
     name: {
         type: String,
-        require: true,
+        required: true,
         unique: true
     },
     image: {
@@ -12,7 +12,8 @@ const partnerSchema = new Schema({
         required: true
     },
     featured: {
-        type: Boolean
+        type: Boolean,
+        default: false
     },
     description: {
         type: String,
