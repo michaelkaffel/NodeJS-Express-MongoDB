@@ -7,9 +7,31 @@ const router = express.Router();
 
 
 /* GET users listing. */
-router.get('/', function (req, res, next) {
-    res.send('respond with a resource');
+router.get('/', authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    User.find()
+        .then(users => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'application/json');
+            res.json(users);
+        })
+        .catch(err => next(err));
 });
+
+router.delete('/:userId', authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
+    User.findByIdAndDelete(req.params.userId)
+        .then(response => {
+            if (response) {
+                res.statusCode = 200;
+                res.setHeader('Content-Type', 'application/json');
+                res.json(response);
+            } else {
+                const err = new Error(`User ${req.params.userId}`);
+                err.status = 404;
+                return next(err);
+            }
+        })
+        .catch(err => next(err));
+})
 
 
 router.post('/signup', (req, res) => {
@@ -29,7 +51,7 @@ router.post('/signup', (req, res) => {
             passport.authenticate('local')(req, res, () => {
                 res.statusCode = 200;
                 res.setHeader('Content-Type', 'application/json');
-                res.json({ sucess: true, status: 'Registration Successful' });
+                res.json({ success: true, status: 'Registration Successful' });
             });
         })
         .catch(err => {
