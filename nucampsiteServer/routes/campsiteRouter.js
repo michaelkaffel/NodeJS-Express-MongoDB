@@ -182,19 +182,19 @@ campsiteRouter.route('/:campsiteId/comments/:commentId')
                             campsite.comments.id(req.params.commentId).text = req.body.text;
                         }
                         campsite.save()
-                        .then(campsite => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(campsite);
-                        })
-                        .catch(err => next(err));
+                            .then(campsite => {
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'application/json');
+                                res.json(campsite);
+                            })
+                            .catch(err => next(err));
                     } else {
                         const err = new Error('You are not authorized to update this comment.');
                         err.status = 404;
                         return next(err);
                     }
 
-                    
+
                 } else if (!campsite) {
                     const err = new Error(`Campsite ${req.params.campsiteId} not found`);
                     err.status = 404;
@@ -211,16 +211,31 @@ campsiteRouter.route('/:campsiteId/comments/:commentId')
         Campsite.findById(req.params.campsiteId)
             .then(campsite => {
                 if (campsite && campsite.comments.id(req.params.commentId)) {
-                    campsite.comments.id(req.params.commentId).deleteOne();
-                    campsite.save()
-                        .then(campsite => {
-                            res.statusCode = 200;
-                            res.setHeader('Content-Type', 'application/json');
-                            res.json(campsite);
-                        })
-                        .catch(err => next(err));
+
+                    const comment = campsite.comments.id(req.params.commentId);
+
+                    if (comment.author.equals(req.user._id) || req.user.admin) {
+                        comment.deleteOne();
+                        campsite.save()
+                            .then(campsite => {
+                                res.statusCode = 200;
+                                res.setHeader('Content-Type', 'application/json');
+                                res.json(campsite);
+                            })
+                            .catch(err => next(err));
+                    } else {
+                        const err = new Error('You are not authorized to delete this comment');
+                        err.status = 403;
+                        return next(err);
+                    }
+
+
                 } else if (!campsite) {
-                    err = new Error(`Campsite ${req.params.campsiteId} not found`);
+                    const err = new Error(`Campsite ${req.params.campsiteId} not found`);
+                    err.status = 404;
+                    return next(err);
+                }  else {
+                    const err = new Error(`Comment ${req.params.commentId} not found`);
                     err.status = 404;
                     return next(err);
                 }
