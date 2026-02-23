@@ -85,7 +85,7 @@ campsiteRouter.route('/:campsiteId/comments')
                     res.setHeader('Content-Type', 'application/json');
                     res.json(campsite.comments);
                 } else {
-                    err = new Error(`Campsite ${req.params.campsiteId} not found`);
+                    const err = new Error(`Campsite ${req.params.campsiteId} not found`);
                     err.status = 404;
                     return next(err);
                 }
@@ -106,7 +106,7 @@ campsiteRouter.route('/:campsiteId/comments')
                         })
                         .catch(err => next(err));
                 } else {
-                    err = new Error(`Campsite ${req.params.campsiteId} not found`);
+                    const err = new Error(`Campsite ${req.params.campsiteId} not found`);
                     err.status = 404;
                     return next(err);
                 }
@@ -117,8 +117,7 @@ campsiteRouter.route('/:campsiteId/comments')
         res.statusCode = 403;
         res.end(`PUT operation not supported on /campsites/${req.params.campsiteId}`);
     })
-    .delete(authenticate.verifyUser, (req,
-        res, next) => {
+    .delete(authenticate.verifyUser, (req,res,next) => {
         Campsite.findById(req.params.campsiteId)
             .then(campsite => {
                 if (campsite) {
@@ -133,7 +132,7 @@ campsiteRouter.route('/:campsiteId/comments')
                         })
                         .catch(err => next(err));
                 } else {
-                    err = new Error(`Campsite ${req.params.campsiteId} not found`);
+                    const err = new Error(`Campsite ${req.params.campsiteId} not found`);
                     err.status = 404;
                     return next(err);
                 }
