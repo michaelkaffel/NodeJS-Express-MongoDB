@@ -7,3 +7,5 @@ mongodb/data/
 sessions/
 *.cert
 *.key
+
+.env
