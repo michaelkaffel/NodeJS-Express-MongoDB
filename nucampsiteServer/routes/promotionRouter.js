@@ -39,7 +39,7 @@ promotionRouter.route('/')
     });
 
 promotionRouter.route('/:promotionId')
-    .get((req, res) => {
+    .get((req, res, next) => {
         Promotion.findById(req.params.promotionId)
             .then(promotion => {
                 res.statusCode = 200;
