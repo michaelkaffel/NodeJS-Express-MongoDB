@@ -5,3 +5,6 @@ node_modules/
 mongodb/data/
 
 sessions/
+
+.env
+
