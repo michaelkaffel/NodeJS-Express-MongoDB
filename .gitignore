@@ -12,3 +12,7 @@ nucampsiteServer/bin/*
 !nucampsiteServer/bin/www
 
 nucampsiteServer/public/images
+
+nucampsiteServerGCP/config.js
+
+/nucampsiteClientGCP/build
