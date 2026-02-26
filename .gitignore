@@ -7,3 +7,8 @@ mongodb/data/
 sessions/
 
 .env
+
+nucampsiteServer/bin/*
+!nucampsiteServer/bin/www
+
+nucampsiteServer/public/images

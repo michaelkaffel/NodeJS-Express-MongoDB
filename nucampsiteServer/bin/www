@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-require('dotenv/config');
+
 var app = require('../app');
 var debug = require('debug')('nucampsiteserver:server');
 var http = require('http');
@@ -35,13 +35,13 @@ server.on('listening', onListening);
 /**
  *  Create HTTPS server
  */
-const options = {
-  key: fs.readFileSync(__dirname + '/server.key'),
-  cert: fs.readFileSync(__dirname + '/server.cert')
-}
+
+const key = fs.readFileSync(process.env.SERVER_KEY_PATH);
+const cert= fs.readFileSync(process.env.SERVER_CERT_PATH);
 
 
-const secureServer = https.createServer(options, app);
+
+const secureServer = https.createServer({ key, cert }, app);
 
 /**
  * Listen on provided port, on all network interfaces.
